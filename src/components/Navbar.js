@@ -37,6 +37,11 @@ export default function Navbar(props) {
                   {props.about}
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link " aria-current="page" to="/section">
+                  {props.section}
+                </Link>
+              </li>
             </ul>
 
             <div

@@ -4,6 +4,7 @@ import About from "./components/About";
 import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import Alert from "./components/Alert";
+import Section from "./components/Section";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar title="WordWiz" about="About" mode={mode} toggleBtn={toggle} />
+        <Navbar title="WikiELN" about="About" mode={mode} toggleBtn={toggle} section="Section" />
         <Alert alert={alert} />
         <Routes>
           <Route
@@ -54,6 +55,7 @@ function App() {
             }
           ></Route>
           <Route path="/about" element={<About mode={mode} />}></Route>
+          <Route path="/section" element={<Section mode={mode} />}></Route>
         </Routes>
       </BrowserRouter>
     </>
