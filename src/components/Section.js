@@ -32,7 +32,7 @@ export default function Section(props) {
 
     const [inputList, setInputList] = useState([]);
 
-    const onAddBtnClick = event => {
+    const onAddSectionBtnClick = event => {
         setInputList(inputList.concat(<TextForm heading={"Fart"} />));
     };
 
@@ -43,7 +43,7 @@ export default function Section(props) {
         <>
             <h1> {name} </h1>
 
-            <button onClick={onAddBtnClick}>Add Section</button>
+            <button onClick={onAddSectionBtnClick}>Add Section</button>
             {inputList}
 
 

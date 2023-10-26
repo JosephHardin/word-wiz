@@ -68,25 +68,29 @@ export default function TextForm(props) {
     <>
       <div className="container my-3">
         <h1>{props.heading}</h1>
-        <div className="mb-3">
-          <textarea
-            className="form-control"
-            id="myBox"
-            style={{
-              backgroundColor: props.mode === "dark" ? "#04134a" : "white",
-              color: props.mode === "dark" ? "white" : "black",
-            }}
-            value={text}
-            rows="8"
-            placeholder="Enter the Text here..."
-            onChange={handleOnChange}
-          ></textarea>
-        </div>
-        <div className="container my-3">
+        {preview ?
+            <div className="container my-3">
           <br />
           <h2>Preview</h2>
           <p>{text}</p>
-        </div>
+          </div>
+            :
+            <div className="mb-3">
+          <textarea
+              className="form-control"
+              id="myBox"
+              style={{
+                backgroundColor: props.mode === "dark" ? "#04134a" : "white",
+                color: props.mode === "dark" ? "white" : "black",
+              }}
+              value={text}
+              rows="8"
+              placeholder="Enter the Text here..."
+              onChange={handleOnChange}
+          ></textarea>
+            </div>
+
+        }
         <PreviewToggle />
         <button
           disabled={text.length === 0}
