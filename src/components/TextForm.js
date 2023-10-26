@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React,  { useState } from "react";
+
 export default function TextForm(props) {
   document.title = "Word Wiz - Home";
-  const handleUpClick = () => {
-    console.log("uppercase clicked");
-    setText(text.toUpperCase());
+  let [text, setText] = useState("");
+  let [preview, setPreview] = useState(false)
+
+  const handlePreview = () => {
+    console.log("Preview Clicked");
+    console.log(preview)
+    setPreview(!preview);
   };
   const handleLoClick = () => {
     console.log("lowercase clicked");
@@ -29,8 +34,36 @@ export default function TextForm(props) {
     console.log("on change");
     setText(e.target.value);
   };
+  const handleChangeTitle = (e) => {
+    console.log("on change");
+    setText(e.target.value);
+  };
 
-  let [text, setText] = useState("");
+  function PreviewToggle(){
+    if(preview){
+      return (<button
+          disabled={text.length === 0}
+          className="btn btn-primary m-1"
+          onClick={handlePreview}
+      >
+        Edit
+      </button>)
+    }
+    return(
+    <button
+          disabled={text.length === 0}
+          className="btn btn-primary m-1"
+          onClick={handlePreview}
+      >
+        Preview
+      </button>
+
+    )
+  }
+
+
+
+
   return (
     <>
       <div className="container my-3">
@@ -49,20 +82,12 @@ export default function TextForm(props) {
             onChange={handleOnChange}
           ></textarea>
         </div>
-        <button
-          disabled={text.length === 0}
-          className="btn btn-primary m-1"
-          onClick={handleUpClick}
-        >
-          Convert to Uppercase
-        </button>
-        <button
-          disabled={text.length === 0}
-          className="btn btn-primary m-1"
-          onClick={handleLoClick}
-        >
-          Convert to Lowercase
-        </button>
+        <div className="container my-3">
+          <br />
+          <h2>Preview</h2>
+          <p>{text}</p>
+        </div>
+        <PreviewToggle />
         <button
           disabled={text.length === 0}
           className="btn btn-primary m-1"
@@ -84,28 +109,9 @@ export default function TextForm(props) {
         >
           Clear Text
         </button>
+
       </div>
-      <div className="container my-3">
-        <h2>Text Summary</h2>
-        <p>
-          {
-            text.split(/\s+/).filter((e) => {
-              return e.length !== 0;
-            }).length
-          }{" "}
-          words and {text.length} characters
-        </p>
-        <p>
-          {0.008 *
-            text.split(/\s+/).filter((e) => {
-              return e.length !== 0;
-            }).length}{" "}
-          Minutes read
-        </p>
-        <br />
-        <h2>Preview</h2>
-        <p>{text.length <= 0 ? "Nothing to preview...!!" : text}</p>
-      </div>
+
     </>
   );
 }
