@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import TextForm from "./TextForm";
 import { Tiptap } from "./TipTap"
 
 export default function Section(props) {
@@ -44,11 +43,11 @@ export default function Section(props) {
 
     return (
         <>
-            <h1> {name} </h1>
+            <h1> <button> Preview and Save </button> </h1>
 
             <button onClick={onAddSectionBtnClick}>Add Section</button>
             {inputList}
-            
+
 
 
 
