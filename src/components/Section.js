@@ -1,8 +1,12 @@
 import React, {useState} from "react";
 import TextForm from "./TextForm";
+import { Tiptap } from "./TipTap"
 
 export default function Section(props) {
     let name = "Butt"
+    const [description, setDescription] = useState("");
+    const [inputList, setInputList] = useState([]);
+
     const Input = () => {
         return <>
 
@@ -30,10 +34,9 @@ export default function Section(props) {
             </>
     };
 
-    const [inputList, setInputList] = useState([]);
 
     const onAddSectionBtnClick = event => {
-        setInputList(inputList.concat(<TextForm heading={"Fart"} />));
+        setInputList(inputList.concat( <Tiptap setDescription={setDescription} />));
     };
 
 
@@ -45,6 +48,8 @@ export default function Section(props) {
 
             <button onClick={onAddSectionBtnClick}>Add Section</button>
             {inputList}
+            
+
 
 
         </>
