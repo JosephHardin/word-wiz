@@ -1,81 +1,128 @@
-import React, {useState} from "react";
-import { Tiptap } from "./TipTap";
-import Section from "./Section"
+import React, {useState, useReducer} from "react";
 
-export default function Editor(props) {
-    const section = {title:"Title", type:"text", id:50, eyeColor:"blue"};
-    const [description, setDescription] = useState("");
-    const [sections, setSections] = useState([]);
+//import Section from "./Section"
+import SectionList from "./SectionList";
+import AddSection from "./AddSection"
 
 
-    function PreviewButton (){
-        return(<h1> <button> Preview and Save </button> </h1>)
+function sectionsReducer(sections, action) {
+    switch (action.type) {
+        case 'added': {
+            return [...sections, {
+                id: action.id,
+                title: action.title,
+                done: false
+            }];
+        }
+        case 'changed': {
+            return sections.map(t => {
+                if (t.id === action.section.id) {
+                    return action.section;
+                } else {
+                    return t;
+                }
+            });
+        }
+        case 'deleted': {
+            return sections.filter(t => t.id !== action.id);
+        }
+        case 'up':{
+            console.log(action)
 
-    }
-    const handleSectionAddition = (event) => {
-        event.preventDefault();
-        section.title = event.target.title.value
-        if (sections.length > 0 )
-        {
-
-            section.id = Math.max(...sections.map(o => o.id)) + 1
+            let ind = 0
+            for(let i = 0; i < sections.length; i++){
+                console.log(sections[i])
+                if(sections[i].id === action.id) {ind = i}
+            }
+            if(ind === 0) {return sections}
+            const temp = sections[ind]
+            sections[ind] = sections[ind-1]
+            sections[ind-1] = temp
+            return [...sections]
 
         }
-        else
-        {
-            section.id = 1
+        case 'down':{
+            console.log(action)
+
+            let ind = 0
+            for(let i = 0; i < sections.length; i++){
+                console.log(sections[i])
+                if(sections[i].id === action.id) {ind = i}
+            }
+            if(ind === sections.length - 1) {return sections}
+            const temp = sections[ind]
+            sections[ind] = sections[ind+1]
+            sections[ind+1] = temp
+            return [...sections]
 
         }
-
-        setSections(sections.concat(<Section id = {section.id}
-                                             title = {section.title}
-                                             onDelete={handleDeleteSection}   />));
+        default: {
+            throw Error('Unknown action: ' + action.type);
+        }
     }
-    function handleSectionDelete(event,buttonId){
-        alert("You Deleted this section" + buttonId)
+}
 
+export default function SectionApp() {
+    const [sections, dispatch] = useReducer(
+        sectionsReducer,
+        initialSections
+    );
+
+    function handleAddSection(title) {
+        dispatch({
+            type: 'added',
+            id: nextId++,
+            title: title,
+        });
     }
 
+    function handleChangeSection(section) {
+        dispatch({
+            type: 'changed',
+            section: section
+        });
+    }
+    function handleMoveUpSection(sectionId) {
+        dispatch({
+            type: 'up',
+            id: sectionId
+        });
+    }
+    function handleMoveDownSection(sectionId) {
+        dispatch({
+            type: 'down',
+            id: sectionId
+        });
+    }
 
-    const handleDeleteSection = (id) => {
-        const updatedSections = sections.filter((sectionId) => sectionId !== id);
-        setSections(updatedSections);
-    };
-
+    function handleDeleteSection(sectionId) {
+        dispatch({
+            type: 'deleted',
+            id: sectionId
+        });
+    }
 
     return (
         <>
-            <PreviewButton />
+            <h1>Prague itinerary</h1>
+            <AddSection
+                onAddSection={handleAddSection}
 
-
-            <form onSubmit={handleSectionAddition}>
-                <label>
-                    Editor Title: <input name="title"/>
-                </label>
-                <hr />
-                <p>
-                    Type:
-                    <label>
-                        <input type="radio" name="myRadio" value="text" />
-                        Text
-                    </label>
-                    <label>
-                        <input type="radio" name="myRadio" value="option2" />
-                        Table
-                    </label>
-
-                </p>
-                <input type="submit" value="Add Editor"/>
-            </form>
-
-            {sections}
-
-
-
-            <PreviewButton />
-
-
-
+            />
+            <SectionList
+                sections={sections}
+                onChangeSection={handleChangeSection}
+                onDeleteSection={handleDeleteSection}
+                onMoveUpSection={handleMoveUpSection}
+                onMoveDownSection={handleMoveDownSection}
+            />
         </>
     );
 }
+
+let nextId = 3;
+const initialSections = [
+    { id: 0, title: 'Introduction', done: true },
+    { id: 1, title: 'Methods', done: false },
+    { id: 2, title: 'Conclusion', done: false }
+];

@@ -97,15 +97,18 @@ const MenuBar = ({ editor }) => {
     );
 };
 
-export const Tiptap = ({ setDescription }) => {
+export const TipTap = ({ setDescription }) => {
     const editor = useEditor({
         extensions: [StarterKit, Underline],
         content: ``,
-
+        /*
+        //Not Used yet
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
             setDescription(html);
         },
+
+         */
     });
 
     return (
