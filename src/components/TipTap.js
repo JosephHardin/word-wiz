@@ -1,6 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import './TipTap.css'
 import {
     FaBold,
     FaHeading,
@@ -40,12 +41,7 @@ const MenuBar = ({ editor }) => {
                 >
                     <FaUnderline />
                 </button>
-                <button
-                    onClick={() => editor.chain().focus().toggleStrike().run()}
-                    className={editor.isActive("strike") ? "is_active" : ""}
-                >
-                    <FaStrikethrough />
-                </button>
+
                 <button
                     onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 2 }).run()

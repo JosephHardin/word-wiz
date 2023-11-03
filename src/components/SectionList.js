@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { TipTap } from "./TipTap";
+import Canvas from "./Canvas";
+
 export default function SectionList({
                                      sections,
                                      onChangeSection,
@@ -22,6 +24,21 @@ export default function SectionList({
             ))}
         </ul>
     );
+}
+
+function SectionType(type, setDescription) {
+    console.log(type)
+    switch (type){
+        case 'text': {
+            return <TipTap setDescription={setDescription}/>
+        }
+        case 'draw': {
+            return <Canvas />
+        }
+        default: {
+            return <p>DID NOT GET TYPE</p>
+        }
+    }
 }
 
 function Section({ section, onChange, onDelete , onMoveUp, onMoveDown}) {
@@ -50,7 +67,7 @@ function Section({ section, onChange, onDelete , onMoveUp, onMoveDown}) {
                 <h3>{section.title} </h3>
 
                 <button onClick={() => setIsEditing(true)}>
-                    Edit Title
+                    Edit Section Title
                 </button>
             </>
         );
@@ -59,7 +76,7 @@ function Section({ section, onChange, onDelete , onMoveUp, onMoveDown}) {
         <>
 
             {sectionContent}
-            <TipTap setDescription={setDescription}/>
+            {SectionType(section.sectionType, setDescription)}
             <button onClick={() => onDelete(section.id)}>
                 Delete
             </button>

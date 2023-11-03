@@ -3,7 +3,7 @@ import React, {useState, useReducer} from "react";
 //import Section from "./Section"
 import SectionList from "./SectionList";
 import AddSection from "./AddSection"
-
+import Preview from "./Preview"
 
 function sectionsReducer(sections, action) {
     switch (action.type) {
@@ -11,6 +11,7 @@ function sectionsReducer(sections, action) {
             return [...sections, {
                 id: action.id,
                 title: action.title,
+                sectionType : action.sectionType,
                 done: false
             }];
         }
@@ -27,11 +28,11 @@ function sectionsReducer(sections, action) {
             return sections.filter(t => t.id !== action.id);
         }
         case 'up':{
-            console.log(action)
+
 
             let ind = 0
             for(let i = 0; i < sections.length; i++){
-                console.log(sections[i])
+
                 if(sections[i].id === action.id) {ind = i}
             }
             if(ind === 0) {return sections}
@@ -42,11 +43,11 @@ function sectionsReducer(sections, action) {
 
         }
         case 'down':{
-            console.log(action)
+
 
             let ind = 0
             for(let i = 0; i < sections.length; i++){
-                console.log(sections[i])
+
                 if(sections[i].id === action.id) {ind = i}
             }
             if(ind === sections.length - 1) {return sections}
@@ -67,12 +68,15 @@ export default function SectionApp() {
         sectionsReducer,
         initialSections
     );
+    const [edit, setEdit] = useState(true)
 
-    function handleAddSection(title) {
+    function handleAddSection(title, sectionType) {
+        console.log(sectionType)
         dispatch({
             type: 'added',
             id: nextId++,
             title: title,
+            sectionType:  sectionType
         });
     }
 
@@ -101,10 +105,19 @@ export default function SectionApp() {
             id: sectionId
         });
     }
+    function handleEdit(editState){
+        setEdit(editState)
+        if (editState){
+            alert("You Can Now Edit")
+        }
+        else{
+            alert("You Are in Preview")
+        }
+    }
 
     return (
         <>
-            <h1>Prague itinerary</h1>
+            <h1>Page Title</h1> <h1>Date</h1>
             <AddSection
                 onAddSection={handleAddSection}
 
@@ -116,13 +129,15 @@ export default function SectionApp() {
                 onMoveUpSection={handleMoveUpSection}
                 onMoveDownSection={handleMoveDownSection}
             />
+
+            <Preview onEdit={handleEdit} />
         </>
     );
 }
 
 let nextId = 3;
 const initialSections = [
-    { id: 0, title: 'Introduction', done: true },
-    { id: 1, title: 'Methods', done: false },
-    { id: 2, title: 'Conclusion', done: false }
+    { id: 0, title: 'Introduction', sectionType: 'text', done: true },
+    { id: 1, title: 'Methods', sectionType: 'text', done: false },
+    { id: 2, title: 'Conclusion', sectionType: 'text', done: false }
 ];

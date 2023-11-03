@@ -2,10 +2,10 @@ import { useState } from "react";
 import "./App.css";
 import About from "./components/About";
 import Navbar from "./components/Navbar";
-import TextForm from "./components/TextForm";
 import Alert from "./components/Alert";
 import Editor from "./components/Editor";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -46,13 +46,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <TextForm
-                heading="Enter Text to analyze"
-                mode={mode}
-                showAlert={showAlert}
-              />
-            }
+
           ></Route>
           <Route path="/about" element={<About mode={mode} />}></Route>
           <Route path="/section" element={<Editor mode={mode} />}></Route>
